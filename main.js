@@ -7,14 +7,14 @@ window.addEventListener('DOMContentLoaded',()=>{
     axios.get('https://crudcrud.com/api/79d9b9f350e144bf909165eec28a5695/appointments')
     .then( (res)=>{
         for(var i=0;i<res.data.length;i++){
-            ShowUsers(res.data[i].name, res.data[i].email, res.data[i].phone)    
+            ShowUsers(res.data[i].name, res.data[i].email, res.data[i].phone, res.data[i]._id)    
         }
     })
     .catch(err => console.log(err))
 })
 
-function ShowUsers(name,email,phone){
-    console.log(name,email,phone)
+function ShowUsers(name,email,phone,id){
+    console.log(name,email,phone,id)
     var obj={
         name:name,
         email:email,
@@ -53,6 +53,14 @@ function ShowUsers(name,email,phone){
         users.removeChild(li);
         
         localStorage.removeItem(obj.email);
+
+
+        axios.delete(`https://crudcrud.com/api/79d9b9f350e144bf909165eec28a5695/appointments/${id}`)
+        .then((res) => {
+            console.log(res)
+            console.log('Users detail deleted succesfully')
+        })
+        .catch(err=>{console.log(err)})
 
     }
 
@@ -104,7 +112,7 @@ function savetolocalstorage(event){
     ).then((res) =>{
         console.log(res.data)
         console.log('sab sahi vhal raha hai hiihihihih')
-        ShowUsers(name,email,phone)
+        ShowUsers(name,email,phone,res.data._id)
     })
     .catch(err=>
         // document.body.innerHTML= document.body.innerHTML+ '<h1> 404 NOT FOUND <h1>')
