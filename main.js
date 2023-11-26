@@ -1,25 +1,26 @@
-var userslist = document.getElementById('users');
+//var userslist = document.getElementById('users');
 
 //userslist.addEventListener('click',onClick);
 
+window.addEventListener('DOMContentLoaded',()=>{
+    
+    axios.get('https://crudcrud.com/api/79d9b9f350e144bf909165eec28a5695/appointments')
+    .then( (res)=>{
+        for(var i=0;i<res.data.length;i++){
+            ShowUsers(res.data[i].name, res.data[i].email, res.data[i].phone)    
+        }
+    })
+    .catch(err => console.log(err))
+})
 
-
-function savetolocalstorage(event){
-    event.preventDefault();
-    //console.log('hi')
-    //console.log(event.target[0].value);
-    var name = document.getElementById('name').value;
-    var email = document.getElementById('email').value;
-    var phone=document.getElementById('phone').value;
-    console.log(name)
-
+function ShowUsers(name,email,phone){
+    console.log(name,email,phone)
     var obj={
         name:name,
         email:email,
         phone:phone
 
     };
-
     var users=document.getElementById('users');
 
     var li = document.createElement('li');
@@ -35,27 +36,13 @@ function savetolocalstorage(event){
     li.appendChild(document.createTextNode(`${name} - ${email} - ${phone}`));
     li.appendChild(btn)
     li.appendChild(edit)
-    // now we will only add li to users only when post request is successfull else error message will shown up.
-    //users.appendChild(li)
+    users.appendChild(li)
     console.log(li)
 
     var objString=JSON.stringify(obj);
 
     localStorage.setItem(email,objString);
-
-    // axios POST request
-    axios.post('https://crudcrud.com/api/3f66757e7cbb42ad887031bf141299cc/appiontents',
-    {name:obj.name,
-     email:obj.email,
-     phone:obj.phone
-    }
-    ).then((res) =>{
-        users.appendChild(li)
-        console.log(res.data)
-    })
-    .catch(err=>
-        document.body.innerHTML= document.body.innerHTML+ '<h1> 404 NOT FOUND <h1>')
-
+    
 
 
     btn.addEventListener('click',clicked);
@@ -86,7 +73,44 @@ function savetolocalstorage(event){
         
         //console.log(name)
     }
+
+}
+
+
+
+
+function savetolocalstorage(event){
+    event.preventDefault();
+    //console.log('hi')
+    //console.log(event.target[0].value);
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var phone=document.getElementById('phone').value;
+    console.log(name)
+
     
+
+    
+    // now we will only add li to users only when post request is successfull else error message will shown up.
+    //users.appendChild(li)
+    
+
+    //axios POST request
+    axios.post('https://crudcrud.com/api/79d9b9f350e144bf909165eec28a5695/appointments',
+    {name:name,
+     email:email,
+     phone:phone
+    }
+    ).then((res) =>{
+        console.log(res.data)
+        console.log('sab sahi vhal raha hai hiihihihih')
+        ShowUsers(name,email,phone)
+    })
+    .catch(err=>
+        // document.body.innerHTML= document.body.innerHTML+ '<h1> 404 NOT FOUND <h1>')
+        console.log(err))
+
+
 
 }
 
