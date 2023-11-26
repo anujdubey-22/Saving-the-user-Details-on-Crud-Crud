@@ -4,7 +4,7 @@
 
 window.addEventListener('DOMContentLoaded',()=>{
     
-    axios.get('https://crudcrud.com/api/79d9b9f350e144bf909165eec28a5695/appointments')
+    axios.get('https://crudcrud.com/api/27a0f9917c6448f186dd555a7373a69e/appointments')
     .then( (res)=>{
         for(var i=0;i<res.data.length;i++){
             ShowUsers(res.data[i].name, res.data[i].email, res.data[i].phone, res.data[i]._id)    
@@ -12,6 +12,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     })
     .catch(err => console.log(err))
 })
+
 
 function ShowUsers(name,email,phone,id){
     console.log(name,email,phone,id)
@@ -37,7 +38,7 @@ function ShowUsers(name,email,phone,id){
     li.appendChild(btn)
     li.appendChild(edit)
     users.appendChild(li)
-    console.log(li)
+    //console.log(li)
 
     var objString=JSON.stringify(obj);
 
@@ -55,7 +56,7 @@ function ShowUsers(name,email,phone,id){
         localStorage.removeItem(obj.email);
 
 
-        axios.delete(`https://crudcrud.com/api/79d9b9f350e144bf909165eec28a5695/appointments/${id}`)
+        axios.delete(`https://crudcrud.com/api/27a0f9917c6448f186dd555a7373a69e/appointments/${id}`)
         .then((res) => {
             console.log(res)
             console.log('Users detail deleted succesfully')
@@ -68,7 +69,7 @@ function ShowUsers(name,email,phone,id){
     edit.addEventListener('click',edited);
 
     function edited(e){
-        //console.log('hi',obj,e.target)
+        console.log('hi',obj,e)
         var li = e.target.parentElement;
         //console.log(li)
         users.removeChild(li);
@@ -80,6 +81,17 @@ function ShowUsers(name,email,phone,id){
         document.getElementById('phone').value=obj.phone
         
         //console.log(name)
+        axios.delete(`https://crudcrud.com/api/27a0f9917c6448f186dd555a7373a69e/appointments/${id}`)
+        .then((res) => {
+            console.log(res)
+            console.log('Users detail deleted succesfully')
+        })
+        .catch(err=>{console.log(err)})
+
+
+
+        
+
     }
 
 }
@@ -89,22 +101,21 @@ function ShowUsers(name,email,phone,id){
 
 function savetolocalstorage(event){
     event.preventDefault();
-    //console.log('hi')
+    //console.log('id',id)
     //console.log(event.target[0].value);
     var name = document.getElementById('name').value;
     var email = document.getElementById('email').value;
     var phone=document.getElementById('phone').value;
     console.log(name)
 
-    
 
-    
     // now we will only add li to users only when post request is successfull else error message will shown up.
     //users.appendChild(li)
     
 
+
     //axios POST request
-    axios.post('https://crudcrud.com/api/79d9b9f350e144bf909165eec28a5695/appointments',
+    axios.post('https://crudcrud.com/api/27a0f9917c6448f186dd555a7373a69e/appointments',
     {name:name,
      email:email,
      phone:phone
@@ -118,9 +129,9 @@ function savetolocalstorage(event){
         // document.body.innerHTML= document.body.innerHTML+ '<h1> 404 NOT FOUND <h1>')
         console.log(err))
 
+    }
 
 
-}
 
 
 
